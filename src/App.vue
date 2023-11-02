@@ -2,7 +2,7 @@
 import packageNum from "./components/packageNum.vue";
 import Header from "./components/Header.vue";
 import { ref } from "vue";
-const todoNum = ref("");
+const todoNum = ref("123");
 const insertTodo = (e) => {
   todoNum.value = e;
 };
