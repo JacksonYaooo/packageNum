@@ -2,7 +2,11 @@
   <div class="header">
     <h2>不取快递别回家</h2>
     <div class="num">
-      <input type="text" placeholder="请输入取件码" v-model="inputValue">
+      <select class="select" @change="change">
+        <option value="菜鸟">菜鸟</option>
+        <option value="兔喜">兔喜</option>
+      </select>
+      <input type="text" placeholder="请输入取件码" v-model.trim="inputValue">
       <button @click="add">提交</button>
     </div>
   </div>
@@ -12,8 +16,13 @@
 import { ref } from 'vue';
 import { defineEmits } from 'vue';
 const inputValue = ref('')
-const add = function(){
-  emit('add-todo',inputValue.value)
+const selectValue = ref('菜鸟')
+const change = (value) => {
+  selectValue.value = value.target.value
+} 
+const add = function () {
+  if( !inputValue.value ) alert('输入不能为空哦')
+  emit('add-todo', selectValue.value, inputValue.value)
   inputValue.value = ''
 }
 const emit = defineEmits(['add-todo'])

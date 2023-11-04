@@ -6,24 +6,52 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  select: {
+    type: String,
+    default: ''
+  }
 })
-const todoArr = ref([])
+const cainiaoObj = ref([]) // { select: 'xxx', input: 'yyy'}
+const tuxiObj = ref([]) // { select: 'xxx', input: 'yyy'}
+
 watch(() => props.value, (newValue, oldValue) => {
-  todoArr.value.unshift(newValue)
+  if (!newValue) return
+  if (props.select === '菜鸟') {
+    cainiaoObj.value.push({
+      select: props.select,
+      input: newValue
+    })
+  } else {
+    tuxiObj.value.push({
+      select: props.select,
+      input: newValue
+    })
+  }
 }, { deep: true, immediate: true });
 </script>
 
 <template>
-  <ul>
-    <li v-for="(item) in todoArr" :key="Math.random()">
-      <input type="checkbox" class="checkBox">
-      <span>{{ item }}</span>
-      <button class="back">删除</button>
-    </li>
-  </ul>
+  <div class="todoList">
+    <ul>
+      <li v-for="(item) in cainiaoObj" :key="Math.random()">
+        <input type="checkbox" class="checkBox">
+        <span>{{ item.select }} {{ item.input }}</span>
+      </li>
+    </ul>
+    <ul>
+      <li v-for="(item) in tuxiObj" :key="Math.random()">
+        <input type="checkbox" class="checkBox">
+        <span>{{ item.select }} {{ item.input }}</span>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <style scoped>
+.todoList{
+  display: flex;
+  justify-content: space-between;
+}
 ul {
   width: 72%;
   margin: 0 auto;
@@ -56,4 +84,5 @@ button {
   margin-right: 12px;
   background-color: rgb(245, 143, 143);
   color: rgb(80, 41, 41);
-}</style>
+}
+</style>
