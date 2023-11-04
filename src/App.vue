@@ -20,6 +20,7 @@ const insertTodo = (e) => {
   height: 700px;
   width: 540px;
   background-color: rgb(254, 193, 253);
-  border-radius: 6%;
+  border-radius: 32px;
+  margin: auto;
 }
 </style>
