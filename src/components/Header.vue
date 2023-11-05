@@ -2,11 +2,11 @@
   <div class="header">
     <h2>不取快递别回家</h2>
     <div class="num">
-      <select class="select">
+      <select class="select" @change="getSelectNum">
         <option value="1">菜鸟</option>
         <option value="2">兔喜</option>
       </select>
-      <input type="text" placeholder="请输入取件码" v-model="inputValue">
+      <input type="text" placeholder="请输入取件码" v-model.trim="inputValue.inputNum">
       <button @click="add">提交</button>
 
     </div>
@@ -14,14 +14,24 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { reactive } from 'vue';
 import { defineEmits } from 'vue';
-const inputValue = ref('')
-const add = function () {
-  emit('add-todo', inputValue.value)
-  inputValue.value = ''
-}
+
+const inputValue = reactive({
+  selectNum: '1',
+  inputNum:''
+})
 const emit = defineEmits(['add-todo'])
+const add = function () {
+  if(!inputValue.inputNum) alert('输入不能为空')
+  emit('add-todo', inputValue)
+  inputValue.inputNum = ''
+}
+const getSelectNum = function(e){
+  // console.log(e.target.value);
+  // 获取select的值,插入input.value
+  inputValue.selectNum = e.target.value
+}
 </script>
 
 <style scoped>
@@ -54,7 +64,6 @@ h2 {
   border: 1px solid #808080;
   border-radius: 6px;
   /* padding: 6px 17px; */
-  margin-right: 13px;
 }
 
 .num input:focus {

@@ -1,17 +1,17 @@
 <script setup>
 import packageNum from "./components/packageNum.vue";
 import Header from "./components/Header.vue";
-import { ref } from "vue";
-const todoNum = ref("123");
+import { reactive, ref } from "vue";
+let inputNum = reactive({});
 const insertTodo = (e) => {
-  todoNum.value = e;
+  Object.assign(inputNum, e)
 };
 </script>
 
 <template>
   <div class="box">
     <Header @add-todo="insertTodo"></Header>
-    <packageNum :value=todoNum />
+    <packageNum :value=inputNum />
   </div>
 </template>
 

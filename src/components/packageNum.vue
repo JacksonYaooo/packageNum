@@ -3,36 +3,65 @@ import { ref, toRef, watch } from 'vue'
 import { defineProps } from 'vue';
 const props = defineProps({
   value: {
-    type: String,
-    default: ''
+    type: Object,
+    default: {}
   },
 })
-const todoArr = ref([])
-watch(() => props.value, (newValue, oldValue) => {
-  todoArr.value.unshift(newValue)
-}, { deep: true, immediate: true });
+const birdArr = ref([])
+const rabbArr = ref([])
+const { value } = props
+watch(() => value, (newValue, oldValue) => {
+  console.log(newValue)
+  if(!newValue.inputNum) return
+  if(newValue.selectNum === '1'){
+    birdArr.value.unshift({...newValue})
+  }else{
+    rabbArr.value.unshift({...newValue})
+  }
+}, { deep: true });
+// const map = {
+//   '1' : '菜鸟',
+//   '2' : '兔喜'
+// }
 </script>
 
 <template>
-  <ul>
-    <li v-for="(item) in todoArr" :key="Math.random()">
-      <input type="checkbox" class="checkBox">
-      <span>{{ item }}</span>
-      <button class="back">删除</button>
-    </li>
-  </ul>
+  <div class="listBox">
+    <ul>
+      <li v-for="(item) in rabbArr" :key="Math.random()">
+        <input type="checkbox" class="checkBox" >
+        <span>兔喜 ☺ {{ item.inputNum }}</span>
+      </li>
+    </ul>
+    <ul>
+      <li v-for="(item) in birdArr" :key="Math.random()">
+        <input type="checkbox" class="checkBox"  >
+        <span>菜鸟 ✌ {{ item.inputNum }}</span>
+      </li>
+    </ul>
+  </div>
+  
 </template>
 
 <style scoped>
-ul {
-  width: 72%;
+.listBox{
+  display: flex;
+  justify-content: space-between;
+  width: 85%;
   margin: 0 auto;
-  margin-top: 24px;
+}
+ul {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 1.5rem;
   padding: 0;
+}
+ul:nth-child(2){
+  margin-left: 24px;
 }
 
 .checkBox {
-  margin-left: 0px;
+  margin-left: 0rem;
 }
 
 li {
@@ -41,19 +70,19 @@ li {
   justify-content: space-between;
   align-items: center;
   list-style: none;
-  padding: 0px;
-  margin: 24px 0px;
+  padding: 0rem;
+  margin: 1.5rem 0rem;
 }
 
 span {
   flex: 1;
   text-align: left;
-  padding: 2px 16px;
-  border-bottom: 1px solid #e18fe3;
+  padding: .125rem 1rem;
+  border-bottom: .0625rem solid #e18fe3;
 }
 
 button {
-  margin-right: 12px;
+  margin-right: .75rem;
   background-color: rgb(245, 143, 143);
   color: rgb(80, 41, 41);
 }</style>
