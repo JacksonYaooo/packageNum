@@ -16,8 +16,10 @@
 <script setup>
 import { reactive } from 'vue';
 import { defineEmits } from 'vue';
+import {nanoid} from 'nanoid'
 
 const inputValue = reactive({
+  nanoid: nanoid(),
   selectNum: '1',
   inputNum:'',
   checked: false
@@ -27,6 +29,7 @@ const add = function () {
   if(!inputValue.inputNum) alert('输入不能为空')
   emit('add-todo', inputValue)
   inputValue.inputNum = ''
+  inputValue.nanoid = nanoid()
 }
 const getSelectNum = function(e){
   // console.log(e.target.value);
