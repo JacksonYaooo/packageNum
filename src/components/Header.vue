@@ -19,7 +19,8 @@ import { defineEmits } from 'vue';
 
 const inputValue = reactive({
   selectNum: '1',
-  inputNum:''
+  inputNum:'',
+  checked: false
 })
 const emit = defineEmits(['add-todo'])
 const add = function () {

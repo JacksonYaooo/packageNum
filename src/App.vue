@@ -2,7 +2,9 @@
 import packageNum from "./components/packageNum.vue";
 import Header from "./components/Header.vue";
 import { reactive, ref } from "vue";
+
 let inputNum = reactive({});
+
 const insertTodo = (e) => {
   Object.assign(inputNum, e)
 };
@@ -22,5 +24,6 @@ const insertTodo = (e) => {
   background-color: rgb(254, 193, 253);
   border-radius: 32px;
   margin: auto;
+  position: relative;
 }
 </style>
