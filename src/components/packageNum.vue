@@ -2,6 +2,7 @@
 import { onMounted, ref, toRef, watch } from 'vue'
 import { defineProps } from 'vue';
 import { getLocalStorage, setLocalStorage } from '../utils/index.js'
+import axios from 'axios';
 
 const birdArr = ref([])
 const rabbArr = ref([])
@@ -15,13 +16,28 @@ const props = defineProps({
 const { value } = props
 
 onMounted(() => {
-  birdArr.value = getLocalStorage('birdArr') || []
-  rabbArr.value = getLocalStorage('rabbArr') || []
+  // 发起一个get请求
+  axios({
+    method: 'get',
+    url: 'http://124.70.188.74:3001/api/todolist'
+  }).then(res=>{
+    // console.log(res);
+    const data = res.data
+    data.map(i=>{
+      if(i.select==='1'){
+        birdArr.value.push(i)
+      }else{
+        rabbArr.value.push(i)
+      }
+    })
+  })
+  // birdArr.value = getLocalStorage('birdArr') || []
+  // rabbArr.value = getLocalStorage('rabbArr') || []
 })
 
 watch(() => value, (newValue, oldValue) => {
-  if (!newValue.inputNum) return
-  if (newValue.selectNum === '1') {
+  if (!newValue.input) return
+  if (newValue.select === '1') {
     birdArr.value.unshift({ ...newValue })
     setLocalStorage('birdArr', birdArr.value)
   } else {
@@ -32,12 +48,12 @@ watch(() => value, (newValue, oldValue) => {
 
 const change = (e, index) => {
   e.checked = !e.checked
-  if (e.selectNum === '1') {
-    birdArr.value = birdArr.value.filter(item => item.nanoid !== e.nanoid)
+  if (e.select === '1') {
+    birdArr.value = birdArr.value.filter(item => item._id !== e._id)
     birdArr.value.push({ ...e });
     setLocalStorage('birdArr', birdArr.value);
   } else {
-    rabbArr.value = rabbArr.value.filter(item => item.nanoid !== e.nanoid)
+    rabbArr.value = rabbArr.value.filter(item => item._id !== e._id)
     rabbArr.value.push({ ...e });
     setLocalStorage('rabbArr', rabbArr.value);
   }
@@ -61,15 +77,15 @@ function clearItem() {
 <template>
   <div class="listBox">
     <ul>
-      <li v-for="(item, index) in rabbArr" :key="item.nanoid">
+      <li v-for="(item, index) in rabbArr" :key="item._id">
         <input type="checkbox" class="checkBox" @change="change(item, index)" :checked="item.checked">
-        <span :class="item.checked ? 'checked' : ''">兔喜 ☺ {{ item.inputNum }}</span>
+        <span :class="item.checked ? 'checked' : ''">兔喜 ☺ {{ item.input }}</span>
       </li>
     </ul>
     <ul>
-      <li v-for="(item, index) in birdArr" :key="item.nanoid">
+      <li v-for="(item, index) in birdArr" :key="item._id">
         <input type="checkbox" class="checkBox" @change="change(item, index)" :checked="item.checked">
-        <span :class="item.checked ? 'checked' : ''">菜鸟 ✌ {{ item.inputNum }}</span>
+        <span :class="item.checked ? 'checked' : ''">菜鸟 ✌ {{ item.input }}</span>
       </li>
     </ul>
   </div>

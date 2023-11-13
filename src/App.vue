@@ -20,10 +20,15 @@ const insertTodo = (e) => {
 <style scoped>
 .box {
   height: 700px;
-  width: 540px;
+  /* width: 540px; */
   background-color: rgb(254, 193, 253);
   border-radius: 32px;
-  margin: auto;
+  /* margin: auto; */
   position: relative;
+}
+@media screen and (max-width:768px){
+  .box{
+    width: 100%;
+  }
 }
 </style>
