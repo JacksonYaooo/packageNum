@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref, toRef, watch } from 'vue'
 import { defineProps } from 'vue';
-// import { getLocalStorage,  setLocalStorage } from '../utils/index.js'
 import axios from 'axios';
 
 const birdArr = ref([])
@@ -39,11 +38,15 @@ watch(() => value, (newValue, oldValue) => {
   } else {
     rabbArr.value.unshift({ ...newValue })
   }
+  console.log(birdArr.value)
 }, { deep: true });
 
 const change = (e, index) => {
+  console.log(e)
   e.checked = !e.checked
   if (e.select === '1') {
+    // console.log(e)
+    console.log(birdArr.value)
     birdArr.value = birdArr.value.filter(item => item._id !== e._id)
     birdArr.value.push({ ...e });
   } else {

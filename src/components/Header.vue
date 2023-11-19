@@ -27,7 +27,6 @@ const inputValue = reactive({
 const emit = defineEmits(['add-todo'])
 const add = function () {
   if (!inputValue.input) alert('输入不能为空')
-  emit('add-todo', inputValue)
   const { select, input } = inputValue
   axios({
     method: 'post',
@@ -36,6 +35,8 @@ const add = function () {
       select,
       input
     }
+  }).then(res=>{
+    emit('add-todo', res.data)
   })
   inputValue.input = ''
 }
