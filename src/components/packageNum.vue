@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, toRef, watch } from 'vue'
 import { defineProps } from 'vue';
-import { getLocalStorage, setLocalStorage } from '../utils/index.js'
+// import { getLocalStorage,  setLocalStorage } from '../utils/index.js'
 import axios from 'axios';
 
 const birdArr = ref([])
@@ -20,29 +20,24 @@ onMounted(() => {
   axios({
     method: 'get',
     url: 'http://124.70.188.74:3001/api/todolist'
-  }).then(res=>{
-    // console.log(res);
+  }).then(res => {
     const data = res.data
-    data.map(i=>{
-      if(i.select==='1'){
+    data.map(i => {
+      if (i.select === '1') {
         birdArr.value.push(i)
-      }else{
+      } else {
         rabbArr.value.push(i)
       }
     })
   })
-  // birdArr.value = getLocalStorage('birdArr') || []
-  // rabbArr.value = getLocalStorage('rabbArr') || []
 })
 
 watch(() => value, (newValue, oldValue) => {
   if (!newValue.input) return
   if (newValue.select === '1') {
     birdArr.value.unshift({ ...newValue })
-    setLocalStorage('birdArr', birdArr.value)
   } else {
     rabbArr.value.unshift({ ...newValue })
-    setLocalStorage('rabbArr', rabbArr.value)
   }
 }, { deep: true });
 
@@ -51,26 +46,35 @@ const change = (e, index) => {
   if (e.select === '1') {
     birdArr.value = birdArr.value.filter(item => item._id !== e._id)
     birdArr.value.push({ ...e });
-    setLocalStorage('birdArr', birdArr.value);
   } else {
     rabbArr.value = rabbArr.value.filter(item => item._id !== e._id)
     rabbArr.value.push({ ...e });
-    setLocalStorage('rabbArr', rabbArr.value);
   }
 }
 
-function clearItem() {
-  birdArr.value = birdArr.value.filter(item => {
-    return item.checked !== true
-  })
-  setLocalStorage('birdArr', birdArr.value)
+function getId() {
+  const birdId = birdArr.value.filter(item => item.checked).map(item => item._id)
+  const rabbId = rabbArr.value.filter(item => item.checked).map(item => item._id)
+  return [...birdId, ...rabbId]
+}
 
-  rabbArr.value = rabbArr.value.filter(item => {
-    return item.checked !== true
+function clearItem() {
+  const ids = getId()
+  axios({
+    method: 'post',
+    url: 'http://124.70.188.74:3001/api/todolist/delete',
+    data: ids
+  }).then(res => {
+    console.log(res)
+    if (res.status === 200) {
+      birdArr.value = birdArr.value.filter(item => {
+        return item.checked !== true
+      })
+      rabbArr.value = rabbArr.value.filter(item => {
+        return item.checked !== true
+      })
+    }
   })
-  setLocalStorage('rabbArr', rabbArr.value)
-  // spliceFn(birdArr.value)
-  // spliceFn(rabbArr.value)
 }
 </script>
 
