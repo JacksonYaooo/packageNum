@@ -21,7 +21,7 @@ const insertTodo = (e) => {
 .box {
   height: 700px;
   /* width: 540px; */
-  background-color: rgb(254, 193, 253);
+  background-color: rgb(250, 210, 250);
   border-radius: 32px;
   /* margin: auto; */
   position: relative;

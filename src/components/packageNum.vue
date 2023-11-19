@@ -86,13 +86,13 @@ function clearItem() {
     <ul>
       <li v-for="(item, index) in rabbArr" :key="item._id">
         <input type="checkbox" class="checkBox" @change="change(item, index)" :checked="item.checked">
-        <span :class="item.checked ? 'checked' : ''">兔喜 ☺ {{ item.input }}</span>
+        <span :class="item.checked ? 'checked' : ''">兔喜 ☺ <br />{{ item.input }}</span>
       </li>
     </ul>
     <ul>
       <li v-for="(item, index) in birdArr" :key="item._id">
         <input type="checkbox" class="checkBox" @change="change(item, index)" :checked="item.checked">
-        <span :class="item.checked ? 'checked' : ''">菜鸟 ✌ {{ item.input }}</span>
+        <span :class="item.checked ? 'checked' : ''">菜鸟 ✌ <br />{{ item.input }}</span>
       </li>
     </ul>
   </div>
@@ -142,23 +142,18 @@ span {
   text-align: left;
   padding: .125rem 1rem;
   border-bottom: .0625rem solid #e18fe3;
-}
-
-button {
-  margin-right: .75rem;
-  background-color: rgb(245, 143, 143);
-  color: rgb(80, 41, 41);
+  font-size: 0.8rem;
 }
 
 .clear {
+  background-color: rgb(245, 143, 143);
   position: absolute;
   bottom: 48px;
   right: 64px;
-  background-color: rgb(228, 70, 70);
-  color: #ffe1e1;
+  color: #a31818;
   font-size: 16px;
   padding: 12px 20px;
-  border: 2px solid #820000;
+  border: none;
   border-radius: 6px;
 }
 </style>

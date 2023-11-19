@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <h2>不取快递别回家</h2>
+    <h2>-今天要取快递啦-</h2>
     <div class="num1">
       <select class="select" @change="getselect">
         <option value="1">菜鸟</option>
@@ -59,19 +59,21 @@ const getselect = function (e) {
 h2 {
   padding: 30px 0 10px 0;
   text-align: center;
+  color: #534141;
 }
 
 .select {
   outline: 0;
   border: none;
-  color: #000000;
+  color: #534141;
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
   background: url("../assets/三角.png") no-repeat scroll right center transparent;
   padding-right: 1rem;
   background-size: 10% 10%;
-  font-size: 18px;
+  font-size: 1rem;
+  font-weight: 550;
   box-sizing: border-box;
 }
 
@@ -102,9 +104,10 @@ h2 {
 }
 .num1 button {
   width: 64px;
-  background-color: rgb(173, 128, 215);
-  font-size: 16px;
-  border: 1px solid #808080;
+  background-color: rgb(194, 154, 232);
+  color: rgb(69, 0, 142);
+  font-size: 0.8rem;
+  border: none;
   border-radius: 6px;
   box-sizing: border-box;
 }
