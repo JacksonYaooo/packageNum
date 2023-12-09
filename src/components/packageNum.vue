@@ -1,10 +1,35 @@
+<template>
+  <div class="listBox">
+    <ul>
+      <li v-for="(item, index) in rabbArr" :key="item._id">
+        <input type="checkbox" class="checkBox" @change="change(item, index)" :checked="item.checked">
+        <span :class="item.checked ? 'checked' : ''">兔喜 ☺ <br />{{ item.input }}</span>
+      </li>
+    </ul>
+    <ul>
+      <li v-for="(item, index) in birdArr" :key="item._id">
+        <input type="checkbox" class="checkBox" @change="change(item, index)" :checked="item.checked">
+        <span :class="item.checked ? 'checked' : ''">菜鸟 ✌ <br />{{ item.input }}</span>
+      </li>
+    </ul>
+  </div>
+  <button class="clear" @click="clearItem">一键清除</button>
+  <div class="notice" @click="openModal">
+    <img src="src/assets/notice.png" alt="1">
+  </div>
+  <Modal v-model:isVisible="isVisible" />
+</template>
+
 <script setup>
 import { onMounted, ref, toRef, watch } from 'vue'
 import { defineProps } from 'vue';
 import axios from 'axios';
+import Modal from './Modal.vue'
 
 const birdArr = ref([])
 const rabbArr = ref([])
+
+const isVisible = ref(false)
 
 const props = defineProps({
   value: {
@@ -79,27 +104,25 @@ function clearItem() {
     }
   })
 }
+
+const openModal = () => {
+  isVisible.value = true
+}
 </script>
 
-<template>
-  <div class="listBox">
-    <ul>
-      <li v-for="(item, index) in rabbArr" :key="item._id">
-        <input type="checkbox" class="checkBox" @change="change(item, index)" :checked="item.checked">
-        <span :class="item.checked ? 'checked' : ''">兔喜 ☺ <br />{{ item.input }}</span>
-      </li>
-    </ul>
-    <ul>
-      <li v-for="(item, index) in birdArr" :key="item._id">
-        <input type="checkbox" class="checkBox" @change="change(item, index)" :checked="item.checked">
-        <span :class="item.checked ? 'checked' : ''">菜鸟 ✌ <br />{{ item.input }}</span>
-      </li>
-    </ul>
-  </div>
-  <button class="clear" @click="clearItem">一键清除</button>
-</template>
 
 <style scoped>
+.notice{
+  position: absolute;
+  bottom: 3.5rem;
+  right: 1.5rem;
+  width: 24px;
+  height: 24px;
+}
+.notice img{
+  width: 100%;
+  height: 100%;
+}
 .listBox {
   display: flex;
   justify-content: space-between;
